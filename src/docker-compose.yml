@@ -2,33 +2,23 @@ version: '3'
 
 services:
   nginx:
-    #specifies how to build the Docker image
     build: 
-      #uses d Dockerfile located in 'requirements/nginx'
       context: requirements/nginx
-      #build arguments to customize image
       args:
         - CERTS_
         - CERTS_KEY
         - WORDPRESS_URL
     container_name: nginx
-    #specifies the base image: oficial Nginx image from Docker Hub
     image: nginx
-    #tells Docker to always restart the container automatically if it exits.
     restart: always
-    #Mounts the wordpress_volume Docker volume to the /var/www/html/wordpress directory inside the Nginx container. 
-    #This is where the WordPress files are expected to be.
     volumes:
       - wordpress_volume:/var/www/html/wordpress
-    #this service depends on the wordpress service. Docker Compose ensures that the wordpress service starts before the nginx service.
     depends_on:
       - wordpress
-    #Maps port 443 from the host machine to port 443 in the Nginx container. This allows external access to the Nginx service over HTTPS.
     ports:
       - "443:443"
     env_file:
       - .env
-    #Connects the Nginx service to the inception_network Docker network, allowing communication with other services on the same network.
     networks:
       - inception_network
 
@@ -63,16 +53,12 @@ services:
     networks:
       - inception_network
 
-#Defines two named volumes, mariadb_volume and wordpress_volume, both marked as external volumes. 
-#This means that these volumes should be created outside of the Compose file, and their definitions are expected to exist elsewhere.
 volumes:
   mariadb_volume:
     external: true
   wordpress_volume:
     external: true
 
-#Defines a custom Docker network named inception_network with the "bridge" driver. 
-#This network allows containers within the same network to communicate with each other.
 networks:
   inception_network:
     driver: bridge

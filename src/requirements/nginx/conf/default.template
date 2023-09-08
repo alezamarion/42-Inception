@@ -1,34 +1,3 @@
-
-- Nginx server block (sometimes called a virtual host) that is intended to handle HTTPS traffic (port 443) for a specific 
-	server name (specified by the ${WORDPRESS_URL} variable). 
-- listen 443 ssl http2; and listen [::]:443 ssl http2;: These lines specify that Nginx should listen on both IPv4 and IPv6 
-	for incoming HTTPS traffic on port 443. The ssl and http2 keywords indicate that SSL/TLS encryption and HTTP/2 protocol 
-	should be used for secure and efficient communication.
-	- [::]: This notation represents an IPv6 address of all available network interfaces or "any" IPv6 address. 
-		In other words, it tells Nginx to listen on all available IPv6 addresses.
-- server_name ${WORDPRESS_URL};: This line sets the server name that this block should respond to. The value is taken from 
-	the ${WORDPRESS_URL} variable, which is expected to be passed as an environment variable when starting the Nginx container. 
-	This allows you to dynamically configure the server name based on your specific needs.
-- ssl_certificate ${CERTS_}; and ssl_certificate_key ${CERTS_KEY};: These lines specify the SSL certificate and private key
-	files to use for encrypting HTTPS traffic. The values are taken from the ${CERTS_} and ${CERTS_KEY} variables, which are 
-	expected to be set during the Docker image build process. These variables should point to the locations of the SSL certificate 
-	and private key files generated earlier in the Dockerfile.
-- ssl_protocols TLSv1.2 TLSv1.3;: This line specifies the SSL/TLS protocols to allow for secure communication. 
-	It allows TLS versions 1.2 and 1.3, which are considered secure and widely supported.
-- root /var/www/html/wordpress;: This line sets the document root directory for this server block. 
-	It specifies the location where Nginx will look for the files to serve. In this case, it points to the directory where 
-	the WordPress application files are expected to be located.
-- index index.php;: This line sets the default index file to index.php, meaning that if a directory is requested without 
-	a specific filename, Nginx will look for and serve index.php if it exists.
-- location ~ \.php$ { ... }: This block defines a location block that handles requests for PHP files. 
-	It uses a regular expression to match URLs that end with .php. Inside this block, several directives are used to configure 
-	how PHP requests are processed:
-	- include snippets/fastcgi-php.conf;: This line includes the FastCGI configuration file for PHP. It contains settings and 
-		directives for handling PHP scripts via FastCGI.
-	- fastcgi_pass wordpress:9000;: This line specifies the address and port of the FastCGI server where PHP requests should be 
-		forwarded. In this case, it references a server named wordpress on port 9000. This suggests that there might be another service
-		(possibly a PHP-FPM container) running as wordpress that handles PHP processing.
-
 server {
 
 	listen     443 ssl http2;

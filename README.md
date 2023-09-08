@@ -1,1 +1,23 @@
 # 42-Inception
+
+.env parameters:
+
+# MariaDB Access
+WORDPRESS_DB_HOST=mariadb (It has to be mariadb)
+WORDPRESS_DB_NAME=
+WORDPRESS_DB_USER=
+WORDPRESS_DB_PASSWORD=
+
+# Wordpress Access
+WORDPRESS_URL=<intralogin.42.fr>
+WORDPRESS_ADMIN_USER=
+WORDPRESS_ADMIN_PASSWORD=
+WORDPRESS_ADMIN_EMAIL=
+
+WORDPRESS_GUEST_USER=
+WORDPRESS_GUEST_PASSWORD=
+WORDPRESS_GUEST_EMAIL=
+
+# Certs
+CERTS_=/etc/ssl/certs/<name>.crt
+CERTS_KEY=/etc/ssl/private/<name>.key
